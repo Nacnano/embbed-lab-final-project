@@ -2,6 +2,7 @@
 
 import StatusCard from "@/components/BrightnessCard";
 import InfoCard, { InfoType } from "@/components/InfoCard";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import StatusBar from "@/components/StatusBar";
 import { Info } from "@/types/Info";
 import Image from "next/image";
@@ -63,7 +64,7 @@ const Home = () => {
           </div>
         </div>
       ) : (
-        "Loading, please wait"
+        <LoadingSpinner />
       )}
 
       <div className="flex flex-col py-5 items-center">
