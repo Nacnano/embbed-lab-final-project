@@ -22,7 +22,7 @@ export default function InfoCard({ type, value }: InfoCardProps) {
     case InfoType.Luminosity:
       title = "Luminosity";
       unit = "lumen";
-      color = "red-500";
+      color = "blue-500";
       break;
     default:
       title = "untitled";
@@ -37,10 +37,10 @@ export default function InfoCard({ type, value }: InfoCardProps) {
       style={{ boxShadow: "6px 6px 10px -1px rgba(0,0,0,0.15)" }}
     >
       <div className="text-center font-bold text-lg">{title}</div>
-      <div className={`text-center font-extrabold text-5xl text-${color}`}>
+      <div className={`text-center font-extrabold text-4xl text-${color}`}>
         {value}
       </div>
-      <div className={`text-center font-bold text-4xl text-${color}`}>
+      <div className={`text-center font-bold text-3xl text-${color}`}>
         {unit}
       </div>
     </div>
