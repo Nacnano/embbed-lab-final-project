@@ -1,6 +1,6 @@
 export type Info = {
   id: string;
-  brightness: number;
+  luminosity: number;
   distance: number;
   lastUpdated: string;
 };

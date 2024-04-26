@@ -1,26 +1,47 @@
-interface InfoCardProps {
-  id: string;
-  brightness: number;
-  distance: number;
-  lastUpdated: string;
+export enum InfoType {
+  Distance = "Distance",
+  Luminosity = "Luminosity",
 }
 
-// not sure if this will be used
-export default function InfoCard({
-  id,
-  brightness,
-  distance,
-  lastUpdated,
-}: InfoCardProps) {
+interface InfoCardProps {
+  value: number;
+  type: InfoType;
+}
+
+export default function InfoCard({ type, value }: InfoCardProps) {
+  let title = "";
+  let unit = "";
+  let color = "";
+
+  console.log(type);
+  switch (type) {
+    case InfoType.Distance:
+      title = "Distance";
+      unit = "meter";
+      color = "blue-500";
+    case InfoType.Luminosity:
+      title = "Brightness";
+      unit = "lumen";
+      color = "red-500";
+    default:
+      title = "untitled";
+      unit = "unknown";
+      color = "gray-500";
+      break;
+  }
+
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-2">Bus Stop {id}</h2>
-      <p className="mb-2">
-        Brightness: <span className="font-bold">{brightness}%</span>
-      </p>
-      <p>
-        Last Updated: <span>{lastUpdated}</span>
-      </p>
+    <div
+      className="w-40 h-40 bg-white rounded-lg justify-center items-center pt-5"
+      style={{ boxShadow: "6px 6px 10px -1px rgba(0,0,0,0.15)" }}
+    >
+      <div className="text-center font-bold text-lg">{title}</div>
+      <div className={`text-center font-extrabold text-5xl text-${color}`}>
+        {value}
+      </div>
+      <div className={`text-center font-bold text-4xl text-${color}`}>
+        {unit}
+      </div>
     </div>
   );
 }
