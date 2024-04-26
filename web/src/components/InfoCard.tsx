@@ -13,16 +13,17 @@ export default function InfoCard({ type, value }: InfoCardProps) {
   let unit = "";
   let color = "";
 
-  console.log(type);
   switch (type) {
     case InfoType.Distance:
       title = "Distance";
       unit = "meter";
       color = "blue-500";
+      break;
     case InfoType.Luminosity:
-      title = "Brightness";
+      title = "Luminosity";
       unit = "lumen";
       color = "red-500";
+      break;
     default:
       title = "untitled";
       unit = "unknown";

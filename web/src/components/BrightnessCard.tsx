@@ -6,7 +6,7 @@ interface StatusCardProps {
 
 const StatusCard: React.FC<StatusCardProps> = ({ value }) => {
   let brightnessStatus = "";
-  if (value > 80) {
+  if (value > 100) {
     brightnessStatus = "Too Bright";
   } else if (value < 20) {
     brightnessStatus = "Too Dark";
