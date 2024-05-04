@@ -20,8 +20,8 @@ export default function InfoCard({ type, value }: InfoCardProps) {
       color = "blue-500";
       break;
     case InfoType.Luminosity:
-      title = "Luminosity";
-      unit = "lumen";
+      title = "Brightness";
+      unit = "lux";
       color = "blue-500";
       break;
     default:

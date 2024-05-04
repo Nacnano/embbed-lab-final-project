@@ -6,16 +6,16 @@ interface StatusCardProps {
 }
 
 const StatusCard: React.FC<StatusCardProps> = ({ value }) => {
-  let brightnessStatus = "";
+  let luminosityStatus = "";
   let backgroundColor = "";
   if (value > threshold.bright) {
-    brightnessStatus = "Too Bright";
+    luminosityStatus = "Too Bright";
     backgroundColor = "red-500";
   } else if (value < threshold.dark) {
-    brightnessStatus = "Too Dark";
+    luminosityStatus = "Too Dark";
     backgroundColor = "red-500";
   } else {
-    brightnessStatus = "OK";
+    luminosityStatus = "OK";
     backgroundColor = "green";
   }
 
@@ -35,14 +35,14 @@ const StatusCard: React.FC<StatusCardProps> = ({ value }) => {
               : "text-amber-900"
           }`}
         >
-          {brightnessStatus}
+          {luminosityStatus}
         </span>
       </div>
-      <div className="text-center font-bold text-lg">Brightness</div>
+      <div className="text-center font-bold text-lg">Luminosity</div>
       <div className={`text-center font-extrabold text-4xl`}>
         {value.toFixed(2)}
       </div>
-      <div className="text-center font-bold text-3xl">lux</div>
+      <div className="text-center font-bold text-3xl">lumen</div>
     </div>
   );
 };

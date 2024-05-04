@@ -11,41 +11,17 @@ import { useState, useEffect } from "react";
 const Home = () => {
   const [data, setData] = useState<Info>();
 
-  const thresholdColors = {
-    "Too Dark": "blue",
-    OK: "green",
-    "Too Bright": "red",
-  };
-  const colorStops = [0, 20, 100, 100];
-  const brightnessStatus = "Too Dark";
-
-  const renderThumb = () => (
-    <div
-      style={{
-        height: "20px",
-        width: "20px",
-        borderRadius: "50%",
-        border: `2px solid ${thresholdColors[brightnessStatus]}`,
-        boxShadow: "0px 2px 6px #AAA",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        cursor: "pointer",
-      }}
-    />
-  );
-
   useEffect(() => {
     // TODO : add database connection instead of mock data
     const mockData = {
-      luminosity: 800,
+      brightness: 80,
       distance: 2,
     };
     setData(mockData);
   }, []);
 
-  const brightness = data
-    ? data.luminosity / (4 * Math.PI * data.distance ** 2)
+  const luminosty = data
+    ? data.brightness * (4 * Math.PI * data.distance ** 2)
     : -1;
 
   return (
@@ -57,10 +33,10 @@ const Home = () => {
 
       {data ? (
         <div className="flex flex-col justify-center items-center gap-5">
-          <StatusCard value={brightness} />
+          <StatusCard value={luminosty} />
           <div className="flex flex-row p-5 justify-center items-center gap-5 bg-gray-300 rounded-lg">
             <InfoCard type={InfoType.Distance} value={data.distance} />
-            <InfoCard type={InfoType.Luminosity} value={data.luminosity} />
+            <InfoCard type={InfoType.Luminosity} value={data.brightness} />
           </div>
         </div>
       ) : (

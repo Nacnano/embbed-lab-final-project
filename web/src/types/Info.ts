@@ -1,4 +1,4 @@
 export type Info = {
-  luminosity: number;
+  brightness: number;
   distance: number;
 };
