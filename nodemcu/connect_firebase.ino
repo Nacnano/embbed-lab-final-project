@@ -1,5 +1,6 @@
 #include <ESP8266WiFi.h>
-#include <FirebaseESP8266.h>
+// #include <FirebaseESP8266.h>
+#include <Firebase_ESP_Client.h>
 #include "addons/TokenHelper.h"
 #include "addons/RTDBHelper.h"
 #include "time.h"
@@ -116,17 +117,18 @@ void setup() {
 }
 
 void loop() {
-  if (millis() - sendDataPrevMillis > timerDelay || sendDataPrevMillis == 0) {
-    // "1" for reading command to get sensor data
-    Serial.println("Receieving Sensor Data");
-    comm.write('1');
+  // Serial.println("HELLO...");
+  // if (millis() - sendDataPrevMillis > timerDelay || sendDataPrevMillis == 0) {
+  //   // "1" for reading command to get sensor data
+  //   Serial.println("Receieving Sensor Data");
+  //   comm.write('1');
 
-    if (!waitingData) {
-      waitingData = true;
-    }
+  //   if (!waitingData) {
+  //     waitingData = true;
+  //   }
 
-    sendDataPrevMillis = millis();
-  }
+  //   sendDataPrevMillis = millis();
+  // }
 
 
   // if (Firebase.ready() && (millis() - sendDataPrevMillis > timerDelay || sendDataPrevMillis == 0)) {
@@ -150,35 +152,36 @@ void loop() {
   //   Serial.printf("Set json... %s\n", Firebase.RTDB.setJSON(&fbdo, "/", &json) ? "ok" : fbdo.errorReason().c_str());
   // }
 
-  // if (comm.available()) {
-  //   String prefix = comm.readStringUntil('[');
-  //   // Serial.println(prefix);
-  //   if (prefix == "water") {
-  //     doneWater = true;
+  if (comm.available() || 1) {
+    String prefix = comm.readStringUntil('[');
+    // Serial.println(prefix);
+    if (prefix == "water") {
+      doneWater = true;
 
-  //     // Set status back to 0
-  //     Firebase.RTDB.setInt(&fbdo, F("/status"), 0);
+      // Set status back to 0
+      Firebase.RTDB.setInt(&fbdo, F("/status"), 0);
 
-  //     Serial.println("Watered");
-  //   }
+      Serial.println("Watered");
+    }
 
-  //   String airTempRaw = comm.readStringUntil(',');
-  //   // airTempRaw.remove(0, 1);
-  //   airTempRaw.replace("[", "");
-  //   airTemp = airTempRaw.toInt();
+    // String airTempRaw = comm.readStringUntil(',');
+    // // airTempRaw.remove(0, 1);
+    // airTempRaw.replace("[", "");
+    // airTemp = airTempRaw.toInt();
 
-  //   String airHumidRaw = comm.readStringUntil(',');
-  //   airHumid = (float)(airHumidRaw.toFloat() / 100.0);
+    // String airHumidRaw = comm.readStringUntil(',');
+    // airHumid = (float)(airHumidRaw.toFloat() / 100.0);
 
-  //   String soilHumidRaw = comm.readStringUntil(',');
-  //   soilHumid = (float)(soilHumidRaw.toFloat() / 100.0);
+    // String soilHumidRaw = comm.readStringUntil(',');
+    // soilHumid = (float)(soilHumidRaw.toFloat() / 100.0);
 
-  //   String lightRaw = comm.readStringUntil(']');
-  //   // lightRaw.remove(lightRaw.length() - 1, 1);
-  //   lightRaw.replace("]", "");
-  //   light = lightRaw.toFloat();
+    // String lightRaw = comm.readStringUntil(']');
+    // // lightRaw.remove(lightRaw.length() - 1, 1);
+    // lightRaw.replace("]", "");
+    // light = lightRaw.toFloat();
 
     if (Firebase.ready() && waitingData) {
+      Serial.println("In if");
       // Serial.printf("Air Temp: %d, Air Humid: %.2f, Soil Humid: %.2f, Light: %.2f, ", distance, brighteness);
 
       json.set(brightnessPath, 100);
@@ -186,6 +189,9 @@ void loop() {
       Serial.printf("Set json... %s\n", Firebase.RTDB.setJSON(&fbdo, "/sensor", &json) ? "ok" : fbdo.errorReason().c_str());
 
       waitingData = false;
+    }
+    else {
+      Serial.println("In else");
     }
   }
 
