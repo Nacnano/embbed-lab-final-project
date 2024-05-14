@@ -31,10 +31,14 @@ const Home = () => {
     const Ref = ref(database, "sensor");
 
     const unsub1 = onValue(Ref, (snapshot) => {
-      const data = snapshot.val();
+      const data = snapshot.val() as String;
       console.log(data);
-      setBrightness(data.brightness);
-      setDistance(data.distance);
+      const [distanceData, brightnessData] = data
+        ? data.split(",")
+        : ["-1", "-1"];
+
+      setBrightness(parseInt(brightnessData));
+      setDistance(parseInt(distanceData));
     });
     return () => {
       unsub1();
@@ -52,7 +56,6 @@ const Home = () => {
       <h1 className="text-3xl text-center font-bold mb-8">
         Bus Stop Brightness
       </h1>
-      {/* <StatusBar /> */}
 
       {valid ? (
         <div className="flex flex-col justify-center items-center gap-5">
