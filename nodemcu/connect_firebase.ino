@@ -7,9 +7,6 @@
 #include <SoftwareSerial.h>
 #include <string.h>
 
-// #include "WifiCredential.h"
-// #include "FirebaseCredential.h"
-
 #define SSID "Routing"
 #define PASSWORD "grb080916c"
 #define FIREBASE_API_KEY "AIzaSyDALiu3BdUQT8mHV43PJ_jr_2YnLAaLxdg"
@@ -21,10 +18,6 @@
 FirebaseData fbdo;
 FirebaseAuth auth;
 FirebaseConfig config;
-
-// Database path
-String distancePath = "/distance";
-String brightnessPath = "/brightness";
 
 // Counter
 FirebaseJson json;
@@ -40,9 +33,6 @@ float distance;
 const char* ntpServer = "pool.ntp.org";
 
 SoftwareSerial comm(D7, D8);
-
-bool waitingData = true;
-bool doneWater = true;
 
 void initialUSBSerial() {
   // Start USB serial
@@ -117,101 +107,29 @@ void setup() {
 }
 
 void loop() {
-  // Serial.println("HELLO...");
-  // if (millis() - sendDataPrevMillis > timerDelay || sendDataPrevMillis == 0) {
-  //   // "1" for reading command to get sensor data
-  //   Serial.println("Receieving Sensor Data");
-  //   comm.write('1');
-
-  //   if (!waitingData) {
-  //     waitingData = true;
-  //   }
-
-  //   sendDataPrevMillis = millis();
-  // }
-
-
-  // if (Firebase.ready() && (millis() - sendDataPrevMillis > timerDelay || sendDataPrevMillis == 0)) {
-  //   sendDataPrevMillis = millis();
-
-  //   //Get current timestamp
-  //   timestamp = getTime();
-  //   Serial.print("time: ");
-  //   Serial.println(timestamp);
-
-  //   airHumid = rand();
-  //   airTemp = rand();
-  //   light = rand();
-  //   soilHumid = rand();
-
-  //   json.set(airHumidPath.c_str(), String(airHumid));
-  //   json.set(airTempPath.c_str(), String(airTemp));
-  //   json.set(lightPath.c_str(), String(light));
-  //   json.set(soilHumidPath.c_str(), String(soilHumid));
-  //   json.set(timestampPath.c_str(), String(timestamp));
-  //   Serial.printf("Set json... %s\n", Firebase.RTDB.setJSON(&fbdo, "/", &json) ? "ok" : fbdo.errorReason().c_str());
-  // }
-  String brightData, distData;
+  String data;
 
   if (comm.available()) {
 
     Serial.println("Connecting Comm ...");  
-    // testSerial.write(testSerial.read());
-    brightData = comm.readStringUntil('x');
-    distData = comm.readStringUntil('x');
-    Serial.println(brightData);
-    Serial.println(distData);
+
+    data = comm.readStringUntil('x');
+    Serial.println(data);
+    comm.write('1');
+
     yield();
-    // delay(1000);
 
-    // String prefix = comm.readStringUntil('[');
-    // // Serial.println(prefix);
-    // if (prefix == "water") {
-    //   doneWater = true;
-
-    //   // Set status back to 0
-    //   Firebase.RTDB.setInt(&fbdo, F("/status"), 0);
-
-    //   Serial.println("Watered");
-    // }
-
-    // String airTempRaw = comm.readStringUntil(',');
-    // // airTempRaw.remove(0, 1);
-    // airTempRaw.replace("[", "");
-    // airTemp = airTempRaw.toInt();
-
-    // String airHumidRaw = comm.readStringUntil(',');
-    // airHumid = (float)(airHumidRaw.toFloat() / 100.0);
-
-    // String soilHumidRaw = comm.readStringUntil(',');
-    // soilHumid = (float)(soilHumidRaw.toFloat() / 100.0);
-
-    // String lightRaw = comm.readStringUntil(']');
-    // // lightRaw.remove(lightRaw.length() - 1, 1);
-    // lightRaw.replace("]", "");
-    // light = lightRaw.toFloat();
-
-    if (Firebase.ready() && waitingData) {
+    if (Firebase.ready()) {
       Serial.println("In if");
-      // Serial.printf("Air Temp: %d, Air Humid: %.2f, Soil Humid: %.2f, Light: %.2f, ", distance, brighteness);
-
-      json.set(brightnessPath, brightData.toInt());
-      json.set(distancePath, distData.toInt());
-      Serial.printf("Set json... %s\n", Firebase.RTDB.setJSON(&fbdo, "/sensor", &json) ? "ok" : fbdo.errorReason().c_str());
-
-      // waitingData = false;
+      Serial.printf("Set json... %s\n", Firebase.RTDB.setString(&fbdo, "/sensor", data) ? "ok" : fbdo.errorReason().c_str());
     }
     else {
       Serial.println("In else");
-      // waitingData = true;
     }
   }
   else {
     Serial.println("Not Com available");
   }
 
-  digitalWrite(D0, HIGH);
-  delay(500);
-  digitalWrite(D0, LOW);
-  delay(500);
+  delay(1000);
 }
