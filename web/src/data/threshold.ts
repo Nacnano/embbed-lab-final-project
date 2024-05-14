@@ -1,4 +1,4 @@
 export const threshold = {
-  dark: 20,
-  bright: 100,
+  dark: 1000,
+  bright: 2000,
 };
