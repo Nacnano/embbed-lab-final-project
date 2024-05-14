@@ -16,7 +16,7 @@ export default function InfoCard({ type, value }: InfoCardProps) {
   switch (type) {
     case InfoType.Distance:
       title = "Distance";
-      unit = "meter";
+      unit = "cm";
       color = "blue-500";
       break;
     case InfoType.Luminosity:
