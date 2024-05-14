@@ -41,8 +41,7 @@ const Home = () => {
     };
   }, []);
 
-  const valid =
-    brightness != undefined && distance != undefined && distance != 0;
+  const valid = brightness != undefined && distance != undefined;
 
   const luminosty = valid
     ? brightness * (4 * Math.PI * (distance / 100) ** 2)
