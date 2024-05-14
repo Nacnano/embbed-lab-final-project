@@ -41,10 +41,11 @@ const Home = () => {
     };
   }, []);
 
-  const luminosty =
-    brightness && distance
-      ? brightness * (4 * Math.PI * (distance / 100) ** 2)
-      : -1;
+  const valid = brightness != undefined && distance != undefined;
+
+  const luminosty = valid
+    ? brightness * (4 * Math.PI * (distance / 100) ** 2)
+    : -1;
 
   return (
     <div className="flex flex-col container mx-auto px-4 py-8 items-center">
@@ -53,7 +54,7 @@ const Home = () => {
       </h1>
       {/* <StatusBar /> */}
 
-      {brightness && distance ? (
+      {valid ? (
         <div className="flex flex-col justify-center items-center gap-5">
           <StatusCard value={luminosty} />
           <div className="flex flex-row p-5 justify-center items-center gap-5 bg-gray-300 rounded-lg">
