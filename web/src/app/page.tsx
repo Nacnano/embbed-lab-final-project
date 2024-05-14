@@ -63,15 +63,14 @@ const Home = () => {
         <LoadingSpinner />
       )}
 
-      {/* <div className="flex flex-col py-5 items-center">
-        Gen Phy 2 goes bruhhhh
+      <div className="flex flex-col py-10 items-center">
         <Image
           src={"/lumens-vs-lux-diagram.jpg"}
           alt={"lumens-vs-lux-diagram"}
           width={400}
           height={800}
         />
-      </div> */}
+      </div>
     </div>
   );
 };
