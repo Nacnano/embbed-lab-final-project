@@ -39,7 +39,7 @@ float distance;
 
 const char* ntpServer = "pool.ntp.org";
 
-SoftwareSerial comm(D5, D6);
+SoftwareSerial comm(D7, D8);
 
 bool waitingData = true;
 bool doneWater = true;
@@ -66,7 +66,7 @@ void initialWifi() {
   // Connect wifi with ssid and password
   WiFi.begin(SSID, PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
-    Serial.println("Connecting...  ");
+    Serial.println("Connecting Wifi...  ");
     // Serial.printf("Connection Status: %d\n", WiFi.status());
     delay(1000);
   }
@@ -106,8 +106,8 @@ void setup() {
   Serial.begin(115200);
 
   comm.begin(9600);
-  pinMode(D5, INPUT);
-  pinMode(D6, OUTPUT);
+  pinMode(D7, INPUT);
+  pinMode(D8, OUTPUT);
 
   pinMode(D0, OUTPUT);  //blink
 
@@ -151,18 +151,29 @@ void loop() {
   //   json.set(timestampPath.c_str(), String(timestamp));
   //   Serial.printf("Set json... %s\n", Firebase.RTDB.setJSON(&fbdo, "/", &json) ? "ok" : fbdo.errorReason().c_str());
   // }
+  String brightData, distData;
 
-  if (comm.available() || 1) {
-    String prefix = comm.readStringUntil('[');
-    // Serial.println(prefix);
-    if (prefix == "water") {
-      doneWater = true;
+  if (comm.available()) {
 
-      // Set status back to 0
-      Firebase.RTDB.setInt(&fbdo, F("/status"), 0);
+    Serial.println("Connecting Comm ...");  
+    // testSerial.write(testSerial.read());
+    brightData = comm.readStringUntil('x');
+    distData = comm.readStringUntil('x');
+    Serial.println(brightData);
+    Serial.println(distData);
+    yield();
+    // delay(1000);
 
-      Serial.println("Watered");
-    }
+    // String prefix = comm.readStringUntil('[');
+    // // Serial.println(prefix);
+    // if (prefix == "water") {
+    //   doneWater = true;
+
+    //   // Set status back to 0
+    //   Firebase.RTDB.setInt(&fbdo, F("/status"), 0);
+
+    //   Serial.println("Watered");
+    // }
 
     // String airTempRaw = comm.readStringUntil(',');
     // // airTempRaw.remove(0, 1);
@@ -184,19 +195,23 @@ void loop() {
       Serial.println("In if");
       // Serial.printf("Air Temp: %d, Air Humid: %.2f, Soil Humid: %.2f, Light: %.2f, ", distance, brighteness);
 
-      json.set(brightnessPath, 100);
-      json.set(distancePath, 1);
+      json.set(brightnessPath, brightData.toInt());
+      json.set(distancePath, distData.toInt());
       Serial.printf("Set json... %s\n", Firebase.RTDB.setJSON(&fbdo, "/sensor", &json) ? "ok" : fbdo.errorReason().c_str());
 
-      waitingData = false;
+      // waitingData = false;
     }
     else {
       Serial.println("In else");
+      // waitingData = true;
     }
+  }
+  else {
+    Serial.println("Not Com available");
   }
 
   digitalWrite(D0, HIGH);
-  delay(1000);
+  delay(500);
   digitalWrite(D0, LOW);
-  delay(1000);
+  delay(500);
 }
