@@ -42,7 +42,9 @@ const Home = () => {
   }, []);
 
   const luminosty =
-    brightness && distance ? brightness * (4 * Math.PI * distance ** 2) : -1;
+    brightness && distance
+      ? brightness * (4 * Math.PI * (distance / 100) ** 2)
+      : -1;
 
   return (
     <div className="flex flex-col container mx-auto px-4 py-8 items-center">
