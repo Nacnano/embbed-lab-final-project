@@ -9,6 +9,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue, set } from "firebase/database";
+import { calculateLuminosity, calculateLux } from "@/utils/physics";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -33,23 +34,22 @@ const Home = () => {
     const unsub1 = onValue(Ref, (snapshot) => {
       const data = snapshot.val() as String;
       console.log(data);
-      const [distanceData, brightnessData] = data
-        ? data.split(",")
-        : ["-1", "-1"];
 
-      setBrightness(parseInt(brightnessData));
+      const [distanceData, adcData] = data ? data.split(",") : ["-1", "-1"];
+
+      const brightnessData = calculateLux(parseInt(adcData));
+
       setDistance(parseInt(distanceData));
+      setBrightness(brightnessData);
     });
     return () => {
       unsub1();
     };
   }, []);
 
-  const valid = brightness != undefined && distance != undefined;
+  const valid = distance != undefined && brightness != undefined;
 
-  const luminosty = valid
-    ? brightness * (4 * Math.PI * (distance / 100) ** 2)
-    : -1;
+  const luminosty = valid ? calculateLuminosity(distance, brightness) : -1;
 
   return (
     <div className="flex flex-col container mx-auto px-4 py-8 items-center">
