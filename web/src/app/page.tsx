@@ -1,6 +1,6 @@
 "use client";
 
-import StatusCard from "@/components/BrightnessCard";
+import StatusCard from "@/components/StatusCard";
 import InfoCard, { InfoType } from "@/components/InfoCard";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import StatusBar from "@/components/StatusBar";
