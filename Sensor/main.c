@@ -56,13 +56,16 @@ UART_HandleTypeDef huart2;
 // Use Timer1 as counter with HCLK of 72 and prescaler of 72-1.
 // For LDR sensor
 // Use adc1 with the resolution of 12 bits at port A0.
-// Both uses 5V
+// Both uses 5V, Resistor used 1,000 ohms
 
 uint32_t pMillis;
 uint32_t Value1 = 0;
 uint32_t Value2 = 0;
 uint16_t Distance  = 0;  // cm
 uint16_t ldr = 0;
+double voltage_used = 5.0;
+double max_adc_decimal = 4095.0;
+double resistor_used = 1000.0;
 char buf[256];
 char confirmation[1];
 /* USER CODE END PV */
@@ -130,7 +133,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  // Debug light
+	  HAL_Delay(500);
 	  if (HAL_UART_Receive(&huart1, confirmation, 1, 10) != HAL_OK) {
+		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 		  continue;
 	  }
  // Distance sensor
@@ -158,22 +164,26 @@ int main(void)
 //	  sprintf(buf, "dis = %d\r\n", Distance);
 //	  HAL_UART_Transmit(&huart2, buf, strlen(buf), 1000);
 
-	  HAL_Delay(500);
 
 // 	  Light sensor
 	  int adc_value = read_ADC_value(); // Read the ADC value
-//	  double voltage = (adc_value / 4095.0) * 5; // Convert ADC value to voltage
-
+	  double Rvoltage = ((double)adc_value / max_adc_decimal) * voltage_used; // Convert ADC value to Resistor voltage
+	  double LDRvoltage = voltage_used - Rvoltage;
+	  double LDRresistance = LDRvoltage / Rvoltage * resistor_used;
+//	  sprintf(buf, "adc = %d   RV = %d   LDRV = %d   RLDR = %d\r\n",adc_value, (int)Rvoltage, (int)LDRvoltage, (int)LDRresistance);
+//	  HAL_UART_Transmit(&huart2, buf, strlen(buf), 10);
 //	  sprintf(buf, "%dx", Distance);
 //	  HAL_UART_Transmit(&huart1, buf, strlen(buf), 10);
 //	  sprintf(buf, "%dx", adc_value);
 //	  HAL_UART_Transmit(&huart1, buf, strlen(buf), 10);
-	  sprintf(buf, "%d,%dx", Distance, adc_value);
+	  // Transimit to node
+	  sprintf(buf, "%d,%dx", Distance, (int)LDRresistance);
 	  HAL_UART_Transmit(&huart1, buf, strlen(buf), 10);
 //	  UART2 Debug
 //	  sprintf(buf, "adc = %d\r\n", adc_value);
 //	  HAL_UART_Transmit(&huart2, buf, strlen(buf), 1000);
 
+	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
 	  HAL_Delay(500);
     /* USER CODE END WHILE */
 
