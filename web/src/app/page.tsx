@@ -64,7 +64,10 @@ const Home = () => {
           <StatusCard value={luminosty} />
           <div className="flex flex-row p-5 justify-center items-center gap-5 bg-gray-300 rounded-lg">
             <InfoCard type={InfoType.Distance} value={distance} />
-            <InfoCard type={InfoType.Luminosity} value={brightness} />
+            <InfoCard
+              type={InfoType.Luminosity}
+              value={Number(brightness.toFixed(2))}
+            />
           </div>
         </div>
       ) : (
