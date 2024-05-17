@@ -3,6 +3,9 @@ export function calculateLuminosity(distance: number, brightness: number) {
   return luminosty;
 }
 
-export function calculateLux(adc: number) {
-  return adc;
+export function calculateLux(resistance: number) {
+  const exponent =
+    -1.0128565 * Math.log10(resistance) + Math.log10(254267.4432);
+  const lux = 10 ** exponent;
+  return lux;
 }

@@ -35,9 +35,11 @@ const Home = () => {
       const data = snapshot.val() as String;
       console.log(data);
 
-      const [distanceData, adcData] = data ? data.split(",") : ["-1", "-1"];
+      const [distanceData, resistanceData] = data
+        ? data.split(",")
+        : ["-1", "-1"];
 
-      const brightnessData = calculateLux(parseInt(adcData));
+      const brightnessData = calculateLux(parseInt(resistanceData));
 
       setDistance(parseInt(distanceData));
       setBrightness(brightnessData);
