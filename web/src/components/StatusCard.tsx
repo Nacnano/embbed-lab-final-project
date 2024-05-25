@@ -42,7 +42,9 @@ const StatusCard: React.FC<StatusCardProps> = ({ value }) => {
         <div className="text-center font-extrabold text-4xl">
           {value != threshold.error ? value.toFixed(2) : "out of range"}
         </div>
-        <div className="text-center font-bold text-3xl">lumen</div>
+        <div className="text-center font-bold text-3xl">
+          {value != threshold.error ? "lumen" : ""}
+        </div>
       </div>
     </div>
   );
