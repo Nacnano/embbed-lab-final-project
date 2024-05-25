@@ -1,6 +1,8 @@
+import { threshold } from "@/data/threshold";
+
 export function calculateLuminosity(distance: number, brightness: number) {
   const luminosty = brightness * (4 * Math.PI * (distance / 100) ** 2);
-  return distance > 800 ? luminosty : -1;
+  return 2 <= distance && distance <= 800 ? luminosty : threshold.error;
 }
 
 export function calculateLux(resistance: number) {
