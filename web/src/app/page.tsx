@@ -60,34 +60,41 @@ const Home = () => {
     <div className="flex flex-col container mx-auto px-4 py-8 items-center text-center">
       <h1 className="text-3xl font-bold mb-2">Bus Stop Brightness</h1>
 
-      <div className="flex flex-col w-1/3 items-center mt-5 mb-2 py-2 px-4  bg-gray-400 rounded-md text-xl font-medium">
+      <div className="flex flex-col w-auto items-center mt-5 mb-2 py-2 px-4  bg-gray-400 rounded-md text-xl font-medium">
         <a className="font-bold">NOTE : This project is currently offline.</a>
         Please view GitHub repository or contact members for more information
       </div>
 
-      <a
-        href="https://github.com/nacnano/embbed-lab-final-project"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex flex-row items-center py-2 text-lg font-semibold gap-2 hover:text-blue-400"
-      >
-        View on GitHub
-        <a className="text-3xl">
+      <div className="flex flex-row items-center py-2 text-lg font-semibold gap-2 hover:text-blue-400">
+        <a
+          href="https://github.com/nacnano/embbed-lab-final-project"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View on GitHub
+        </a>
+        <a
+          className="text-3xl"
+          href="https://github.com/nacnano/embbed-lab-final-project"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <FontAwesomeIcon icon={faGithub} />
         </a>
-      </a>
+      </div>
 
-      <div className="flex flex-col text-lg pb-5">
+      <div className="flex flex-col w-auto max-w-3xl text-lg pb-5">
         <a className="font-semibold text-xl mt-2">Made by</a>
         <div className="flex flex-col mt-2">
           {membersList.map((member) => (
-            <a key={member} className="font-semibold">
+            <a key={member} className="font-medium">
               {member}
             </a>
           ))}
         </div>
-        <a className="mt-2 text-lg font-semibold">
-          Computer Engineering Class of 2026, Chulalongkorn University
+        <a className="mt-2 text-lg font-medium">
+          For Embedded System Laboratory Course, Computer Programming Class of
+          2026, Bachelor of Engineering, Chulalongkorn University
         </a>
       </div>
 
