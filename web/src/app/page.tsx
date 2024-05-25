@@ -10,6 +10,9 @@ import { useState, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue, set } from "firebase/database";
 import { calculateLuminosity, calculateLux } from "@/utils/physics";
+import { membersList } from "@/data/memberList";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -54,10 +57,34 @@ const Home = () => {
   const luminosty = valid ? calculateLuminosity(distance, brightness) : -1;
 
   return (
-    <div className="flex flex-col container mx-auto px-4 py-8 items-center">
-      <h1 className="text-3xl text-center font-bold mb-8">
-        Bus Stop Brightness
-      </h1>
+    <div className="flex flex-col container mx-auto px-4 py-8 items-center text-center">
+      <h1 className="text-3xl font-bold mb-2">Bus Stop Brightness</h1>
+
+      <div className="flex flex-col w-1/3 items-center mt-5 mb-2 py-2 px-4  bg-gray-400 rounded-md text-xl font-medium">
+        <a className="font-bold">NOTE : This project is currently offline.</a>
+        Please view GitHub repository or contact members for more information
+      </div>
+
+      <a
+        href="https://github.com/nacnano/embbed-lab-final-project"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex flex-row items-center py-2 text-lg font-semibold gap-2 hover:text-blue-400"
+      >
+        View on GitHub
+        <a className="text-3xl">
+          <FontAwesomeIcon icon={faGithub} />
+        </a>
+      </a>
+
+      <div className="flex flex-col text-lg pb-5">
+        <a className="font-semibold text-xl">Made by</a>
+        {membersList.map((member) => (
+          <a key={member} className="font-normal">
+            {member}
+          </a>
+        ))}
+      </div>
 
       {valid ? (
         <div className="flex flex-col justify-center items-center gap-5">
