@@ -1,3 +1,5 @@
+import { validateDistance } from "@/utils/physics";
+
 export enum InfoType {
   Distance = "Distance",
   Luminosity = "Luminosity",
@@ -19,8 +21,7 @@ export default function InfoCard({ type, value }: InfoCardProps) {
       title = "Distance";
       unit = "cm";
       color = "blue-500";
-      processedValue =
-        2 <= value && value <= 800 ? String(value) : "Out of range";
+      processedValue = validateDistance(value) ? String(value) : "Out of range";
       break;
     case InfoType.Luminosity:
       title = "Brightness";
