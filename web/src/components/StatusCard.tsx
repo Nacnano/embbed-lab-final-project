@@ -8,15 +8,14 @@ interface StatusCardProps {
 const StatusCard: React.FC<StatusCardProps> = ({ value }) => {
   let luminosityStatus = "";
   let backgroundColor = "";
-
-  if (value > threshold.bright) {
+  if (value == threshold.error) {
+    luminosityStatus = "Error";
+    backgroundColor = "bg-red-500";
+  } else if (value > threshold.bright) {
     luminosityStatus = "Too Bright";
     backgroundColor = "bg-red-500";
   } else if (value < threshold.dark) {
     luminosityStatus = "Too Dark";
-    backgroundColor = "bg-red-500";
-  } else if (value == threshold.error) {
-    luminosityStatus = "Error";
     backgroundColor = "bg-red-500";
   } else {
     luminosityStatus = "OK";
