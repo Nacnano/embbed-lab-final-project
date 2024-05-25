@@ -78,12 +78,17 @@ const Home = () => {
       </a>
 
       <div className="flex flex-col text-lg pb-5">
-        <a className="font-semibold text-xl">Made by</a>
-        {membersList.map((member) => (
-          <a key={member} className="font-normal">
-            {member}
-          </a>
-        ))}
+        <a className="font-semibold text-xl mt-2">Made by</a>
+        <div className="flex flex-col mt-2">
+          {membersList.map((member) => (
+            <a key={member} className="font-semibold">
+              {member}
+            </a>
+          ))}
+        </div>
+        <a className="mt-2 text-lg font-semibold">
+          Computer Engineering Class of 2026, Chulalongkorn University
+        </a>
       </div>
 
       {valid ? (
