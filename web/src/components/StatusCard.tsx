@@ -15,6 +15,9 @@ const StatusCard: React.FC<StatusCardProps> = ({ value }) => {
   } else if (value < threshold.dark) {
     luminosityStatus = "Too Dark";
     backgroundColor = "bg-red-500";
+  } else if (value == threshold.error) {
+    luminosityStatus = "Error";
+    backgroundColor = "bg-red-500";
   } else {
     luminosityStatus = "OK";
     backgroundColor = "bg-green-400";
@@ -38,7 +41,7 @@ const StatusCard: React.FC<StatusCardProps> = ({ value }) => {
         </div>
         <div className="text-center font-bold text-lg">Luminosity</div>
         <div className="text-center font-extrabold text-4xl">
-          {value.toFixed(2)}
+          {value != threshold.error ? value.toFixed(2) : "out of range"}
         </div>
         <div className="text-center font-bold text-3xl">lumen</div>
       </div>

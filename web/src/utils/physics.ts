@@ -1,6 +1,6 @@
 export function calculateLuminosity(distance: number, brightness: number) {
   const luminosty = brightness * (4 * Math.PI * (distance / 100) ** 2);
-  return luminosty;
+  return distance > 800 ? luminosty : -1;
 }
 
 export function calculateLux(resistance: number) {
