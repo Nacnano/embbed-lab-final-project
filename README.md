@@ -6,7 +6,7 @@ A device for measuring brightness of bus stop's lights and signs.
 
 ### By
 
-- [Warboo](https://github.com/warboo) (Veeliw)
+- [warboo](https://github.com/warboo) (Veeliw)
 - [YeYethePooh](https://github.com/YeYethePooh) (Poohpha)
 - [winithraKS](https://github.com/winithraKS) (Khaosuay)
 - [Nacnano](https://github.com/nacnano) (Nac)
